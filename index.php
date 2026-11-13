@@ -30,7 +30,14 @@ class Router
 
         // Suppression des barres obliques en trop
         $url = trim($url, '/');
+        $parts = explode('/', $url);
 
+        if($parts[0] === 'tasks' && count($parts) === 2){
+            $id = $parts[1];
+            $controller = new TaskController();
+            $controller->show($id);
+            return;
+        }
         // Vérification de la correspondance de l'URL à une route définie
         if (array_key_exists($url, $this->routes)) {
             // Extraction du nom du contrôleur et de la méthode
@@ -41,7 +48,8 @@ class Router
             $controller->$methodName();
         } else {
             // Gestion des erreurs (page 404, etc.)
-            echo '<h2>la page demandée n\'existe pas</h2>';
+            http_response_code(404);
+            require_once 'views/404.php';
         }
     }
 }
@@ -52,6 +60,7 @@ $router = new Router('DemoMVCAlpha');
 // Ajout des routes
 $router->addRoute('', 'HomeController@index'); // Pour la racine
 $router->addRoute('tasks', 'TaskController@index'); // Pour la racine
+$router->addRoute('about', 'HomeController@about');
 
 // Appel de la méthode route
 $router->route(trim($_SERVER['REQUEST_URI'], '/'));

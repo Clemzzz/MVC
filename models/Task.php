@@ -1,14 +1,30 @@
 <?php
 class Task {
-    public function getAllTasks() {
-        // COn peut mettre ici le code nécessaire pour récupérer toutes les tâches depuis la base de données
-        $tasks = array(
-            array('id' => 1, 'title' => 'Suivre les cours associés à PHP'),
-            array('id' => 2, 'title' => 'Comprendre le principe du MVC'),
-            array('id' => 3, 'title' => 'Concevoir une base données'),
-            array('id' => 4, 'title' => 'Gérer le CRUD'),
-            array('id' => 5, 'title' => 'Ajouter meles fonctionnalités du projet'),
+
+    private $pdo;
+
+    public function __construct() {
+        $this->pdo = new PDO(
+            'mysql:host=127.0.0.1;port=3307;dbname=mvc;charset=utf8mb4',
+            'root',
+            '',
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]
         );
-        return $tasks;
     }
+
+    public function getAllTasks() {
+        $stmt = $this->pdo->query('SELECT * FROM tasks');
+        return $stmt->fetchAll();
+    }
+
+    public function getTaskById($id) {
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $task = $stmt->fetch();
+
+        return $task ?: null;
+    }    
 }

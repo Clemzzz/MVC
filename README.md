@@ -1,6 +1,6 @@
 #DEMOMVCAlpha
 
-📝 Petite démo de création d'un MVC orienté objet en PHP servant de base à des exercices pratiques (BUT 2 Développement IUT de Caen)
+Petite démo de création d'un MVC orienté objet en PHP servant de base à des exercices pratiques (BUT 2 Développement IUT de Caen)
 
 - Création d'un routeur (index.php) pour analyser les URL et appeler les contrôleurs associés.
 - Création des contrôleurs, des modèles et des vues
